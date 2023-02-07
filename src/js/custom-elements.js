@@ -1,6 +1,6 @@
 // TODO: refactor all web components to use this
 
-import { fetch_all_instance_properties_from_class_matching } from './js/object-inspection.js'
+import { fetch_all_instance_properties_from_class_matching } from './object-inspection.js'
 
 export function register(tag_name, cls, shadow = true, options = {}) {
     cls = cls ?? (shadow ? class extends HTMLElement {
