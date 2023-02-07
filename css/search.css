@@ -1,0 +1,80 @@
+h1 {
+    color: hotpink;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    font-weight: normal;
+    letter-spacing: 0.072em;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-fill-space {
+    flex-grow: 1;
+}
+
+.cat-sprite {
+    width: 300px;
+    align-self: end;
+}
+
+.confetti {
+    position: fixed;
+    width: 20px;
+    height: 30px;
+    animation: rotate var(--spin-speed) linear infinite, fall var(--fall-speed) linear forwards;
+    z-index: 2;
+    --clr-opt-1: firebrick;
+    --clr-opt-2: goldenrod;
+    --clr-opt-3: yellow;
+    --clr-opt-4: cornflowerblue;
+    --clr-opt-5: rebeccapurple;
+    --clr-opt-6: hotpink;
+    --clr-opt-7: lightgreen;
+}
+
+.confetti.small {
+    width: 3px;
+    height: 10px;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate3d(var(--rand-rot-axis-x), var(--rand-rot-axis-y), var(--rand-rot-axis-z), 0deg);
+    }
+
+    to {
+        transform: rotate3d(var(--rand-rot-axis-x), var(--rand-rot-axis-y), var(--rand-rot-axis-z), 360deg);
+    }
+}
+
+@keyframes fall {
+    from {
+        top: calc(-10vh - var(--height-offset));
+        left: var(--left-start);
+    }
+
+    to {
+        top: 110vh;
+        left: var(--left-end);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    body {
+        margin: 0;
+    }
+
+    main {
+        flex-direction: column;
+        width: 100vw;
+    }
+}
