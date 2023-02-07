@@ -1,0 +1,125 @@
+:host {
+    display: grid;
+    --row-count: 0;
+    --column-count: 0;
+    grid-template-rows: repeat(var(--row-count), 1fr);
+    grid-template-columns: repeat(var(--column-count), 1fr);
+    gap: 1px;
+    --border-color: #ffc3cd;
+    background-color: var(--border-color);
+    border: 2px solid var(--border-color);
+    touch-action: pinch-zoom;
+}
+
+.cell {
+    --row: 1;
+    --column: 1;
+    grid-row: calc(var(--row) + 1);
+    grid-column: calc(var(--column) + 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    background-color: #fff1f4;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.3rem;
+    color: #904250;
+    user-select: none;
+}
+
+.cell.solved {
+    color: #285528;
+}
+
+.cell span {
+    z-index: 1;
+}
+
+.highlight-wrapper {
+    --row-start: 1;
+    --row-end: 1;
+    --column-start: 1;
+    --column-end: 1;
+    grid-row: calc(var(--row-start) + 1) / calc(var(--row-end) + 2);
+    grid-column: calc(var(--column-start) + 1) / calc(var(--column-end) + 2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.highlight {
+    --background-gradient-angle: 0deg;
+    background: linear-gradient(var(--background-gradient-angle), #d47a89, #ffb1bd, #e7a5b0);
+    background: pink;
+    border-radius: 100px;
+    border: 1px solid #9e7279;
+    flex: 0 0 auto;
+    opacity: 0.9;
+}
+
+.highlight.solved {
+    background: #C1FFC1;
+    border-color: #5D845D;
+}
+
+.highlight.spot {
+    width: 28px;
+    height: 28px;
+}
+
+.highlight.vertical {
+    --background-gradient-angle: 90deg;
+    width: 28px;
+    height: 100%;
+}
+
+.highlight.horizontal {
+    width: 100%;
+    height: 28px;
+}
+
+.highlight:is(.diagonal-forwards, .diagonal-backwards) {
+    --sqrt-2: 1.41421356237;
+    --diag-length-buffer: 10px;
+    width: calc(100% * var(--sqrt-2) - var(--diag-length-buffer));
+    height: 24px;
+}
+
+.highlight.diagonal-forwards {
+    transform: rotate(45deg);                
+}
+
+.highlight.diagonal-backwards {
+    transform: rotate(-45deg);
+}
+
+@media only screen and (max-width: 768px) {
+    :host {
+        --max-cell-width: calc((100vw - 2px * 2 - 1px * (var(--row-count) - 1)) / var(--row-count));
+    }
+
+    .cell {
+        width: var(--max-cell-width);
+        height: var(--max-cell-width);
+        font-size: 1rem;
+    }
+
+    .highlight.spot {
+        width: calc(var(--max-cell-width) - 4px);
+        height: calc(var(--max-cell-width) - 4px);
+    }
+
+    .highlight.vertical {
+        width: calc(var(--max-cell-width) - 4px);
+    }
+
+    .highlight.horizontal {
+        height: calc(var(--max-cell-width) - 4px);
+    }
+
+    .highlight:is(.diagonal-forwards, .diagonal-backwards) {
+        height: calc(var(--max-cell-width) - 4px);
+    }
+}
