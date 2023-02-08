@@ -389,12 +389,20 @@ export class WordSearchPuzzleElement extends HTMLElement {
             let highlight = document.createElement('div')
             highlight.classList.add('highlight')
 
+            let highlightBorder = document.createElement('div')
+            highlightBorder.classList.add('highlight', 'highlight-border')
+
             wrapper.appendChild(highlight)
+            wrapper.appendChild(highlightBorder)
             this.shadowRoot.appendChild(wrapper)
         }
 
-        wrapper.querySelector('.highlight').classList.remove('spot', 'horizontal', 'vertical', 'diagonal-forwards', 'diagonal-backwards')
-        wrapper.querySelector('.highlight').classList.add(directionClass)
+        wrapper.querySelectorAll('.highlight').forEach(elem => {
+            elem.classList.remove('spot', 'horizontal', 'vertical', 'diagonal-forwards', 'diagonal-backwards')
+        })
+        wrapper.querySelectorAll('.highlight').forEach(elem => {
+            elem.classList.add(directionClass)
+        })
 
         return wrapper
     }
