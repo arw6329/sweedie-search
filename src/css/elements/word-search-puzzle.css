@@ -2,6 +2,7 @@
     display: grid;
     --row-count: 0;
     --column-count: 0;
+    --cell-thickness: 35px;
     grid-template-rows: repeat(var(--row-count), 1fr);
     grid-template-columns: repeat(var(--column-count), 1fr);
     gap: 1px;
@@ -19,8 +20,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 35px;
-    height: 35px;
+    width: var(--cell-thickness);
+    height: var(--cell-thickness);
     background-color: #fff1f4;
     font-family: 'Courier Prime', monospace;
     font-size: 1.3rem;
@@ -51,6 +52,8 @@
 
 .highlight {
     --background-gradient-angle: 0deg;
+    --highlight-edge-of-cell-buffer: 4px;
+    --highlight-thickness: calc(var(--cell-thickness) - var(--highlight-edge-of-cell-buffer) * 2);
     background: linear-gradient(var(--background-gradient-angle), #d47a89, #ffb1bd, #e7a5b0);
     background: pink;
     border-radius: 100px;
@@ -65,26 +68,25 @@
 }
 
 .highlight.spot {
-    width: 28px;
-    height: 28px;
+    width: var(--highlight-thickness);
+    height: var(--highlight-thickness);
 }
 
 .highlight.vertical {
     --background-gradient-angle: 90deg;
-    width: 28px;
-    height: 100%;
+    width: var(--highlight-thickness);
+    height: calc(100% - var(--highlight-edge-of-cell-buffer) * 2);
 }
 
 .highlight.horizontal {
-    width: 100%;
-    height: 28px;
+    width: calc(100% - var(--highlight-edge-of-cell-buffer) * 2);
+    height: var(--highlight-thickness);
 }
 
 .highlight:is(.diagonal-forwards, .diagonal-backwards) {
     --sqrt-2: 1.41421356237;
-    --diag-length-buffer: 10px;
-    width: calc(100% * var(--sqrt-2) - var(--diag-length-buffer));
-    height: 24px;
+    width: calc(100% * var(--sqrt-2) - var(--cell-thickness) * var(--sqrt-2) / 2);
+    height: calc(var(--cell-thickness) * var(--sqrt-2) / 2); /* instead of --highlight-thickness - needs to be thinner on diagonals */
 }
 
 .highlight.diagonal-forwards {
@@ -97,29 +99,10 @@
 
 @media only screen and (max-width: 768px) {
     :host {
-        --max-cell-width: calc((100vw - 2px * 2 - 1px * (var(--row-count) - 1)) / var(--row-count));
+        --cell-thickness: calc((100vw - 2px * 2 - 1px * (var(--row-count) - 1)) / var(--row-count));
     }
 
     .cell {
-        width: var(--max-cell-width);
-        height: var(--max-cell-width);
         font-size: 1rem;
-    }
-
-    .highlight.spot {
-        width: calc(var(--max-cell-width) - 4px);
-        height: calc(var(--max-cell-width) - 4px);
-    }
-
-    .highlight.vertical {
-        width: calc(var(--max-cell-width) - 4px);
-    }
-
-    .highlight.horizontal {
-        height: calc(var(--max-cell-width) - 4px);
-    }
-
-    .highlight:is(.diagonal-forwards, .diagonal-backwards) {
-        height: calc(var(--max-cell-width) - 4px);
     }
 }
