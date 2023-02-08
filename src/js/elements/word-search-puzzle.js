@@ -178,6 +178,7 @@ export class WordSearchPuzzleElement extends HTMLElement {
     }
 
     populate(words) {
+        words = [...words]
         this.#words = words
 
         // placing long words first increases odds that all can be placed successfully
